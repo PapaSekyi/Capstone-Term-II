@@ -1,0 +1,155 @@
+{% load crispy_forms_tags %}
+{% comment %} {% load crispy_forms_tags%}
+
+<form method="POST">
+{% csrf_token%}
+
+{{article_form | crispy}}
+<input  type="submit" value='submit'>
+
+</form> {% endcomment %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Next Word Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_content').on('input', function() {
+                var sentence = $(this).val();
+                if (sentence.split(' ').length >= 4) {
+                    var data = {'sentence': sentence};
+                    $.ajax({
+                        url: '{% url "articles:predict_next_words" %}',
+                        type: 'POST',
+                        data: data,
+                        dataType: 'json',
+                        success: function(response) {
+                            $('#predictions').empty();
+                            $.each(response.predictions, function(i, prediction) {
+                                $('#predictions').append('<li>' + prediction + '</li>');
+                            });
+                        }
+                        
+                    });
+                }
+            });
+
+            $('#id_content').on('keydown', function(event) {
+                if (event.keyCode === 9) {  // Tab key
+                    event.preventDefault();
+                    var prediction = $('#predictions li:first-child').text();
+                    if (prediction.length > 0) {
+                        var sentence = $(this).val();
+                        var words = sentence.split(' ');
+                        words[words.length - 1] = prediction;
+                        $(this).val(words.join(' '));
+                        $('#predictions').empty();
+                    }
+                }
+            });
+        });
+
+        // for only one word 
+                        //success: function(response) {
+                        //$('#predictions').empty();
+                        //if (response.predictions.length > 0) {
+                        //$('#predictions').append('<li>' + response.predictions[0] + '</li>');
+                           // }
+                         //   }
+
+                        // for only one word
+    </script>
+</head>
+<style>
+/* Style the list */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style the list items */
+li {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
+  margin-bottom: 0.5em;
+  background-color: #f5f5f5;
+}
+
+/* Style the form label */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+/* Style the form input fields */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 0.5em;
+  border-radius: 0.25em;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-bottom: 1em;
+}
+
+/* Style the form submit button */
+input[type="submit"] {
+  display: block;
+  margin: 1em auto;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Style the link */
+a {
+  display: inline-block;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  border: 1px solid #ff0000;
+  background-color: #fff;
+  color: #ff0000;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Hover state */
+a:hover {
+  background-color: #ff0000;
+  color: #fff;
+}
+</style>
+<body>
+<a href="{% url "articles:arti"%}">Back</a>
+
+<form method="POST">
+{% csrf_token%}
+
+{{article_form | crispy}}
+<input  type="submit" value='submit'>
+
+</form>
+<h3> Predicted Next Words Are: -</h3>
+<ul id="predictions"></ul>
+
+    {% comment %} <input type="text" id="sentence" placeholder="Enter a sentence...">
+    <ul id="predictions"></ul> {% endcomment %}
+</body>
+</html>
+
+
+
+
+

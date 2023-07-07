@@ -1,0 +1,12 @@
+<h1>{{article.title}}</h1>
+<p>Published: - {{article.published}} by {{article.author}}</p>
+
+
+<h3>{{article.content}}</h3>
+
+
+
+{% if article.author == request.user %}
+<button class="btn btn-warning btn-xs"><a href="{% url 'articles:update_article' article.slug%}">Update</a></button>
+<button class="btn btn-danger btn-xs" ><a href="{% url 'articles:delete_article' article.slug%}">Delete</a></button>
+{% endif%}

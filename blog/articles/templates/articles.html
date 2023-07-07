@@ -1,0 +1,14 @@
+{% load static %}
+{% include 'navbar.html'%}
+
+{% for i in article%}
+
+
+<h1>AUTHOR: -{{i.author}} </h1>
+
+<h1>Title: - <a href="{% url 'articles:article_detail' i.slug %}">{{ i.title }}</a></h1>
+
+
+{% endfor %}
+
+{% include 'pagination.html' with page=articles %}

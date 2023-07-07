@@ -1,0 +1,186 @@
+{% load static %}
+
+<style>
+html, body {
+  height: 100%;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  font-family: "Montserrat";
+}
+
+.abc {
+  text-align: center;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  perspective: 1000px;
+  perspective-origin: 50% 100px;
+}
+
+#welcome {
+  color: #fff;
+  font-family: "Montserrat";
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 150;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  opacity: 0.3;
+}
+
+#cube {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  z-index: 100;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate3d(1, -1, 0, 60deg);
+  left: 50%;
+  transform-style: preserve-3d;
+  -webkit-animation: cube-rotate 20000ms infinite alternate;
+          animation: cube-rotate 20000ms infinite alternate;
+}
+#cube > div {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: #d2212a;
+  border: 1px solid #7b0708;
+  opacity: 0.85;
+  box-shadow: 0px 3px 16px rgba(210, 33, 42, 0.4);
+}
+#cube .top {
+  transform: rotateX(-90deg) translateY(-50px);
+  transform-origin: top center;
+}
+#cube .left {
+  transform: rotateY(270deg) translateX(-50px);
+  transform-origin: center left;
+}
+#cube .right {
+  transform: rotateY(-270deg) translateX(50px);
+  transform-origin: top right;
+}
+#cube .front {
+  transform: translateZ(50px);
+}
+#cube .back {
+  transform: translateZ(-50px) rotateY(180deg);
+}
+#cube .bottom {
+  transform: rotateX(90deg) translateY(50px);
+  transform-origin: bottom center;
+}
+
+@-webkit-keyframes cube-rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate3d(1, -1, 0, 60deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) rotate3d(1, -1, 0, -120deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate3d(1, -2, 1, 200deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate3d(1, -1, 0, 420deg);
+  }
+}
+
+@keyframes cube-rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate3d(1, -1, 0, 60deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) rotate3d(1, -1, 0, -120deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate3d(1, -2, 1, 200deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate3d(1, -1, 0, 420deg);
+  }
+}
+.welcome-component > h2 {
+  -webkit-animation: greetingAnim 7275ms forwards linear;
+          animation: greetingAnim 7275ms forwards linear;
+}
+
+@-webkit-keyframes greetingAnim {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  15%, 85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+@keyframes greetingAnim {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  15%, 85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+</style>
+
+<script>
+
+
+</script>
+
+<div id="app">
+  <div id="welcome">
+    <h1 class ='abc'>AI BLOG WEBSITE</h1>
+    <h5>Enter the Gnere for which you want to write a Blog for </h5>
+    <form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input value="Submit" type="Submit"> 
+    </form>
+  </div>
+
+  
+  
+   <div id="cube">
+     <div class="top"></div>
+     <div class="left"></div>
+     <div class="right"></div>
+     <div class="front"></div>
+     <div class="back"></div>
+     <div class="bottom"></div>
+  </div>
+  
+  <div id="background"></div>
+</div>
